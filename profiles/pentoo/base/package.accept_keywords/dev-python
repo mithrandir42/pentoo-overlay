@@ -3,12 +3,13 @@
 dev-python/bluepy
 #killerbee
 dev-python/rangeparser
+#lief dep
+~dev-python/pydantic-2.12.5
 
 dev-python/cmake-converter
 
 =dev-python/pyotherside-1.6* ~amd64
 
-#gentoo is just old as shit
 #apple_bleee
 dev-python/fleep
 dev-python/ctypescrypto
@@ -28,12 +29,11 @@ dev-python/fastkml
 #required by "yubioath-desktop"
 dev-python/pycopy-binascii
 
-#required by net-analyzer/crackmapexec
+#required by net-analyzer/NetExec
 #pentoo packages
 dev-python/impacket
 dev-python/pypsrp
 dev-python/lsassy
-dev-python/pywerview
 
 ############ Gentoo unstable ======================
 ~dev-python/ldap3-2.7
@@ -174,7 +174,7 @@ dev-python/pycares amd64
 #~dev-python/decorator-4.4.0
 ~dev-python/queuelib-1.5.0
 ~dev-python/cchardet-2.1.4
-~dev-python/parsel-1.5.1
+=dev-python/parsel-1*
 #~dev-python/msgpack-0.6.1
 #~dev-python/bottleneck-1.2.1
 
@@ -184,9 +184,6 @@ dev-python/Protego
 #~dev-python/pandas-0.24.1
 #=dev-python/urllib3-1.25*
 ~dev-python/requests-file-1.4.3
-
-#nessus api
-dev-python/nessrest
 
 #required by gvm-tools / openvas
 dev-python/python-gvm
@@ -323,3 +320,44 @@ dev-python/browser-cookie3
 # dnsrecon
 =dev-python/loguru-0*
 =dev-python/ujson-5.11*
+
+# required by dev-util/lief and python 3.14
+~dev-python/pydantic-2.12.3
+
+# required by app-pda/pymobiledevice3
+dev-python/fastapi ~amd64
+dev-python/xonsh ~amd64
+dev-python/asgi-webdav ~amd64
+dev-python/httpx-kerberos ~amd64
+dev-python/asgi-middleware-static-file ~amd64
+dev-python/dataclass-wizard ~amd64
+dev-python/pytimeparse ~amd64
+dev-python/tdir ~amd64
+dev-python/editor ~amd64
+
+# required by dev-python/protobuf-7
+~dev-python/grpcio-1.82.1
+~dev-python/grpcio-tools-1.82.1
+
+# required by dev-python/pyghidra-mcp (argument)
+=dev-python/pyghidra-mcp-0.2*
+=dev-python/chromadb-1.5*
+=dev-python/durationpy-0.11*
+=dev-python/importlib-resources-7.1*
+dev-python/kubernetes
+dev-python/aiohttp-retry
+=dev-python/mmh3-5.3*
+
+# Gentoo package
+~dev-python/opentelemetry-api-1.45.1
+# keep in sync with Gentoo
+~dev-python/opentelemetry-exporter-otlp-proto-common-1.45.1
+~dev-python/opentelemetry-exporter-otlp-proto-grpc-1.45.1
+~dev-python/opentelemetry-proto-1.45.1
+~dev-python/opentelemetry-sdk-1.45.1
+~dev-python/opentelemetry-semantic-conventions-1.45.1
+~dev-python/opentelemetry-exporter-otlp-common-0.66_beta1
+
+=dev-python/pybase64-1.5*
+=dev-python/pypika-0.51*
+=sci-ml/tokenizers-0.23*

@@ -19,8 +19,7 @@ SRC_URI="https://github.com/mhogomchungu/sirikali/archive/refs/tags/${PV}.tar.gz
 LICENSE="GPL-2+"
 SLOT="0"
 
-#FAILS: https://github.com/mhogomchungu/sirikali/issues/300
-#KEYWORDS="amd64"
+KEYWORDS="amd64"
 
 IUSE="debug +pwquality test"
 RESTRICT="!test? ( test )"
