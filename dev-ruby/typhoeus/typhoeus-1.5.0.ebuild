@@ -26,7 +26,7 @@ ruby_add_rdepend "<dev-ruby/ethon-0.16.0"
 
 ruby_add_bdepend "test? (
 	dev-ruby/json
-	dev-ruby/faraday:1
+	dev-ruby/faraday:*
 	dev-ruby/rack:2.2
 	>=dev-ruby/sinatra-1.3
 	>=dev-ruby/redis-3.0

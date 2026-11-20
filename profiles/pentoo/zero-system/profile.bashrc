@@ -1,3 +1,8 @@
+local CORES="$(nproc)"
+if [[ "${CORES}" -eq "0" ]] ; then CORES="1" ; fi
+echo ${MAKEOPTS} | grep -q -e -j || export MAKEOPTS="-j${CORES} -l${CORES} --shuffle"
+
+
 # https://bugs.gentoo.org/877761
 # https://bugs.gentoo.org/860873
 # https://bugs.gentoo.org/861872
@@ -15,10 +20,10 @@ fi
 if [[ ${CATEGORY}/${PN} == dev-libs/libcdio ]]; then
   export CFLAGS="${CFLAGS/-Werror=format-security/}"
 fi
-if [[ ${CATEGORY}/${PN} == net-mail/mailutils ]]; then
+if [[ ${CATEGORY}/${PN} == media-radio/wsjtx_improved ]]; then
   export CFLAGS="${CFLAGS/-Werror=format-security/}"
 fi
-if [[ ${CATEGORY}/${PN} == net-wireless/mdk ]]; then
+if [[ ${CATEGORY}/${PN} == net-mail/mailutils ]]; then
   export CFLAGS="${CFLAGS/-Werror=format-security/}"
 fi
 if [[ ${CATEGORY}/${PN} == dev-build/gn ]]; then
@@ -26,7 +31,7 @@ if [[ ${CATEGORY}/${PN} == dev-build/gn ]]; then
 fi
 
 # Packages that need stringop-overread disabled
-if [[ ${CATEGORY}/${PN} == net-misc/ntp ]]; then
+if [[ ${CATEGORY}/${PN} == dev-python/nassl ]]; then
   export CFLAGS="${CFLAGS/-Werror=stringop-overread/}"
 fi
 if [[ ${CATEGORY}/${PN} == media-video/ffmpeg ]]; then
@@ -47,11 +52,17 @@ fi
 if [[ ${CATEGORY}/${PN} == dev-qt/qtbase ]]; then
   export CXXFLAGS="${CXXFLAGS/-Werror=stringop-overread/}"
 fi
+if [[ ${CATEGORY}/${PN} == llvm-core/clang ]]; then
+  export CXXFLAGS="${CXXFLAGS/-Werror=stringop-overread/}"
+fi
+if [[ ${CATEGORY}/${PN} == net-libs/nodejs ]]; then
+  export CXXFLAGS="${CXXFLAGS/-Werror=stringop-overread/}"
+fi
 if [[ ${CATEGORY}/${PN} == sci-libs/libqalculate ]]; then
   export CXXFLAGS="${CXXFLAGS/-Werror=stringop-overread/}"
 fi
-if [[ ${CATEGORY}/${PN} == llvm-core/clang ]]; then
-  export CXXFLAGS="${CXXFLAGS/-Werror=stringop-overread/}"
+if [[ ${CATEGORY}/${PN} == sci-ml/ggml ]]; then
+  export CXXFLAGS="${CXXFLAGS/-flto}"
 fi
 
 # Packages that need shuffle disabled
@@ -150,9 +161,6 @@ fi
 if [[ ${CATEGORY}/${PN} == net-fs/nfs-utils ]]; then
   export CFLAGS="${CFLAGS/-Werror=stringop-overread/}"
 fi
-if [[ ${CATEGORY}/${PN} == net-misc/dhcp ]]; then
-  export CFLAGS="${CFLAGS/-Werror=stringop-overread/}"
-fi
 if [[ ${CATEGORY}/${PN} == net-misc/remmina ]]; then
   export CFLAGS="${CFLAGS/-Werror=lto-type-mismatch/}"
 fi
@@ -167,11 +175,17 @@ if [[ ${CATEGORY}/${PN} == sys-cluster/openmpi ]]; then
   export CFLAGS="${CFLAGS/-Werror=lto-type-mismatch/}"
   export FCFLAGS="${FCFLAGS/-Werror=lto-type-mismatch/}"
 fi
+if [[ ${CATEGORY}/${PN} == sys-apps/xdg-desktop-portal ]]; then
+  export CFLAGS="${CFLAGS/-Werror=stringop-overread/}"
+fi
 if [[ ${CATEGORY}/${PN} == sys-fs/f2fs-tools ]]; then
   export CFLAGS="${CFLAGS/-Werror=lto-type-mismatch/}"
 fi
 if [[ ${CATEGORY}/${PN} == sys-fs/jfsutils ]]; then
   export CFLAGS="${CFLAGS/-Werror=lto-type-mismatch/}"
+fi
+if [[ ${CATEGORY}/${PN} == sys-fs/ntfs3g ]]; then
+  export CFLAGS="${CFLAGS/-Werror=stringop-overread/}"
 fi
 if [[ ${CATEGORY}/${PN} == sys-libs/volk ]]; then
   export CFLAGS="${CFLAGS/-Werror=lto-type-mismatch/}"
@@ -237,9 +251,6 @@ fi
 if [[ ${CATEGORY}/${PN} == net-wireless/gnuradio ]]; then
   # https://github.com/gnuradio/gnuradio/issues/7056
   export CXXFLAGS="${CXXFLAGS/-Werror=odr/}"
-fi
-if [[ ${CATEGORY}/${PN} == net-wireless/kismet ]]; then
-  export CXXFLAGS="${CXXFLAGS/-Werror=strict-aliasing/}"
 fi
 if [[ ${CATEGORY}/${PN} == sys-apps/smartmontools ]]; then
   export CXXFLAGS="${CXXFLAGS/-Werror=stringop-overread/}"
