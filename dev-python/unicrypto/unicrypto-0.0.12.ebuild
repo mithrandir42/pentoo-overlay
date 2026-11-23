@@ -10,20 +10,29 @@ inherit distutils-r1 pypi
 
 DESCRIPTION="Unified interface for cryptographic libraries"
 HOMEPAGE="https://github.com/skelsec/unicrypto"
-#SRC_URI="mirror://pypi/${P:0:1}/${PN}/${P}.tar.gz"
-#SRC_URI="https://github.com/skelsec/unicrypto/archive/refs/tags/${PV}.tar.gz -> ${P}.gh.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="amd64 arm64 x86"
+IUSE="test"
+RESTRICT="!test? ( test )"
 
 RDEPEND="dev-python/pycryptodome[${PYTHON_USEDEP}]"
-DEPEND="${RDEPEND}"
-REQUIRED_USE="${PYTHON_REQUIRED_USE}"
+BDEPEND="
+	test? (
+		dev-python/cryptography[${PYTHON_USEDEP}]
+		dev-python/python-mbedtls[${PYTHON_USEDEP}]
+	)
+"
 
-#distutils_enable_tests pytest
-
-src_prepare(){
-	rm -r tests
-	eapply_user
+python_prepare_all() {
+	sed -i \
+		-e 's#Cryptodome\.#Crypto.#g' \
+		-e "s#'Cryptodome'#'Crypto'#g" \
+		-e 's#"Cryptodome"#"Crypto"#g' \
+		$(grep -rl --color=never 'Cryptodome' .) || die
+	distutils-r1_python_prepare_all
 }
+
+EPYTEST_PLUGINS=()
+distutils_enable_tests pytest

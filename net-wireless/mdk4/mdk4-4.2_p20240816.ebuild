@@ -2,6 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
+
 inherit toolchain-funcs
 
 DESCRIPTION="Wireless injection tool tool to exploit common IEEE 802.11 protocol weaknesses"

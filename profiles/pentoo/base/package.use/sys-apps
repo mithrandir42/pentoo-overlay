@@ -1,3 +1,5 @@
+#needed by qemu static-user
+sys-apps/attr static-libs
 sys-apps/fwupd agent amt archive bash-completion dell fastboot flashrom gnutls gusb logitech modemmanager nvme pkcs7 redfish spi synaptics thunderbolt tpm uefi
 sys-apps/gnome-disk-utility fat
 sys-apps/hwdata-gentoo binary-drivers
@@ -9,3 +11,8 @@ sys-apps/usermode-utilities fuse
 
 #dev-python/python-magic requires file[-python]
 sys-apps/file -python
+
+# enable X11 isolation and suid operation for regular users
+sys-apps/firejail x11 suid
+# requirements of firejail
+x11-wm/xpra server
