@@ -1,4 +1,4 @@
-# Copyright 2019-2025 Gentoo Authors
+# Copyright 2019-2026 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -12,49 +12,67 @@ if [[ "${PV}" == *9999 ]]; then
 	RESTRICT="strip"
 else
 	SRC_URI="https://github.com/rfhs/fosphor_knob/archive/refs/tags/${PV}.tar.gz -> ${P}.gh.tar.gz"
-	KEYWORDS="~amd64 ~x86"
+	KEYWORDS="~amd64"
 fi
 
+#powermate.py from https://github.com/bethebunny/powermate
 #powermate.py is Apache 2, the rest is GPL-3
 LICENSE="GPL-3 Apache-2.0"
 SLOT="0"
+IUSE="+bladerf +hackrf +rtlsdr +uhd"
+REQUIRED_USE="|| ( bladerf hackrf rtlsdr uhd )"
 
-DEPEND="net-wireless/gnuradio:=
-	net-wireless/gr-paint"
-RDEPEND="${DEPEND}
-	net-wireless/uhd:=
+RDEPEND="net-wireless/gnuradio:=[qt6(+),uhd?]
 	net-analyzer/gr-fosphor
+	net-wireless/gr-paint
+	sys-apps/usbutils
+	x11-misc/xdotool
 	x11-misc/wmctrl
-	x11-misc/xtrlock"
+	x11-misc/xtrlock
+	bladerf? (
+		>=net-wireless/bladerf-2025.10
+		>=net-wireless/bladerf-firmware-2.6.0
+		>=net-wireless/bladerf-fpga-0.16.0
+		>=net-wireless/gr-osmosdr-0.2.6_p20260130[bladerf]
+	)
+	hackrf? (
+		net-wireless/gr-osmosdr[hackrf]
+		net-wireless/hackrf-tools
+	)
+	rtlsdr? ( net-wireless/gr-osmosdr[rtlsdr] )
+	uhd? ( net-wireless/uhd:= )"
+DEPEND="${RDEPEND}"
+BDEPEND="net-wireless/gnuradio[grc]"
 
-#powermate.py from https://github.com/bethebunny/powermate
+src_prepare() {
+	default
+	local sdr
+	for sdr in bladerf hackrf rtlsdr uhd; do
+		use ${sdr} || rm fosphor_knob_${sdr}*.grc || die
+	done
+}
 
 src_compile() {
-	grcc -o "${S}" fosphor_knob_uhd.grc || die
-	grcc -o "${S}" fosphor_knob_uhd_sponsors.grc || die
-	grcc -o "${S}" fosphor_knob_hackrf_sweep.grc || die
-	grcc -o "${S}" fosphor_knob_hackrf_sweep_sponsors.grc || die
-	grcc -o "${S}" fosphor_knob_bladerf2.grc || die
-	grcc -o "${S}" fosphor_knob_bladerf2_sponsors.grc || die
+	local grc
+	for grc in *.grc; do
+		grcc -o "${S}" "${grc}" || die "grcc failed on ${grc}"
+	done
 }
 
 src_install() {
 	insinto /usr/share/${PN}
-	doins *.py *.grc
-	newins scrolly2025-2026.png scrolly.png
+	doins *.py *.grc nosleep.sh
+	newins scrolly2026-2027.png scrolly.png
+	fperms +x /usr/share/${PN}/nosleep.sh
 	fperms +x /usr/share/${PN}/run.py
-	fperms +x /usr/share/${PN}/fosphor_knob_uhd.py
-	fperms +x /usr/share/${PN}/fosphor_knob_uhd_sponsors.py
-	fperms +x /usr/share/${PN}/fosphor_knob_hackrf_sweep.py
-	fperms +x /usr/share/${PN}/fosphor_knob_hackrf_sweep_sponsors.py
-	fperms +x /usr/share/${PN}/fosphor_knob_bladerf2.py
-	fperms +x /usr/share/${PN}/fosphor_knob_bladerf2_sponsors.py
+	local grc
+	for grc in *.grc; do
+		fperms +x "/usr/share/${PN}/${grc%.grc}.py"
+	done
 	newbin fosphor_knob.sh fosphor_knob
-	dosym fosphor_knob /usr/bin/fosphor_knob_sponsors
-	dosym fosphor_knob /usr/bin/fosphor_knob_uhd
-	dosym fosphor_knob /usr/bin/fosphor_knob_uhd_sponsors
-	dosym fosphor_knob /usr/bin/fosphor_knob_hackrf_sweep
-	dosym fosphor_knob /usr/bin/fosphor_knob_hackrf_sweep_sponsors
-	dosym fosphor_knob /usr/bin/fosphor_knob_bladerf
-	dosym fosphor_knob /usr/bin/fosphor_knob_bladerf_sponsors
+	# Also for the SDRs left out: fosphor_knob says their support is disabled.
+	local mode
+	for mode in sponsors {bladerf,hackrf,hackrf_sweep,rtlsdr,uhd}{,_sponsors}; do
+		dosym fosphor_knob /usr/bin/fosphor_knob_${mode}
+	done
 }

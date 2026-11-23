@@ -16,7 +16,7 @@ dev-util/recaf-bin
 dev-util/sonarqube-bin
 
 dev-util/jenkins-bin ~amd64
-=dev-util/nvidia-cuda-toolkit-11.7*
+dev-util/nvidia-cuda-toolkit
 =dev-util/radare2-5*
 
 =dev-util/ropper-1.13*
@@ -29,7 +29,7 @@ dev-util/ROPgadget
 dev-util/maturin amd64
 
 #required by net-analyzer/NetExec
-=dev-util/ruff-0.11*
+=dev-util/ruff-0.16*
 ~virtual/rust-1.74.1
 ~dev-lang/rust-bin-1.74.1
 
@@ -38,3 +38,16 @@ dev-util/plasma
 #the latest protobuf
 ~dev-util/android-tools-35.0.2
 ~dev-libs/libusb-1.0.28
+
+dev-db/redasm-kb
+=dev-util/redasm-gui-4*
+=dev-libs/libredasm-4*
+=dev-libs/redasm-processors-4*
+=dev-libs/redasm-commands-4*
+=dev-libs/redasm-loaders-4*
+=dev-libs/capstone-6.0.0*
+=dev-libs/redasm-analyzers-4*
+
+=dev-util/hipcc-7*
+=dev-util/hip-7*
+=dev-util/rocminfo-7*

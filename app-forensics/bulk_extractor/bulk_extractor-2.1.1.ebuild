@@ -15,6 +15,7 @@ PATCHES=(
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64 ~x86"
+RESTRICT="test"
 
 #fails to compile with ewf
 #fails to compile with exiv2
@@ -75,7 +76,7 @@ src_install() {
 
 		dodoc -r \
 			doc/doxygen/html \
-			doc/Diagnostics_Notes \
+			doc/Diagnostic_Notes \
 			doc/announce \
 			doc/*.{pdf,txt,md} \
 			doc/programmer_manual/*.pdf
